@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Anthony James Esteban — Full-Stack &amp; AI Integration Engineer</title>
+<link rel="icon" type="image/svg+xml" href="Assets/aj-favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root{
+    --ink-950:#0A0E13;
+    --ink-900:#0E141B;
+    --ink-800:#141B23;
+    --ink-700:#1E2731;
+    --line:#232E39;
+    --paper:#EDEFF3;
+    --fog:#9AA5B5;
+    --fog-dim:#5B6673;
+    --signal:#4FE8C4;
+    --signal-dim:#2E7A6C;
+    --amber:#FFB454;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink-950);
+    color:var(--paper);
+    font-family:'Inter',ui-sans-serif,system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .font-display{font-family:'Space Grotesk',ui-sans-serif,system-ui,sans-serif;}
+  .font-mono{font-family:'JetBrains Mono',ui-monospace,monospace;}
+
+  /* subtle grid texture */
+  .grid-tex{
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:40px 40px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 60% 40%, black 30%, transparent 75%);
+    mask-image: radial-gradient(ellipse 80% 60% at 60% 40%, black 30%, transparent 75%);
+    opacity:0.35;
+  }
+
+  .card{
+    background:var(--ink-900);
+    border:1px solid var(--line);
+  }
+  .card:hover{ border-color:var(--signal-dim); }
+
+  .chip{
+    background:var(--ink-800);
+    border:1px solid var(--line);
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .chip:hover{ border-color:var(--signal); transform:translateY(-2px); }
+
+  .tag-pill{
+    background:var(--ink-900);
+    border:1px solid var(--line);
+  }
+
+  .btn-primary{
+    background:var(--signal);
+    color:var(--ink-950);
+  }
+  .btn-primary:hover{ background:#6FF0D1; }
+
+  .btn-ghost{
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--paper);
+  }
+  .btn-ghost:hover{ border-color:var(--signal); color:var(--signal); }
+
+  .link-underline{
+    border-bottom:1px solid var(--line);
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .link-underline:hover{ border-color:var(--paper); color:var(--paper); }
+
+  /* status dot */
+  .dot-live{
+    width:8px;height:8px;border-radius:9999px;
+    background:var(--signal);
+    box-shadow:0 0 0 0 rgba(79,232,196,0.6);
+    animation:pulse-ring 2s infinite;
+  }
+  @keyframes pulse-ring{
+    0%{ box-shadow:0 0 0 0 rgba(79,232,196,0.55);}
+    70%{ box-shadow:0 0 0 8px rgba(79,232,196,0);}
+    100%{ box-shadow:0 0 0 0 rgba(79,232,196,0);}
+  }
+
+  /* ===== Marquee — real, working animation ===== */
+  .marquee-wrap{
+    overflow:hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  }
+  .marquee-track{
+    display:flex;
+    width:max-content;
+    animation:marquee-scroll 32s linear infinite;
+  }
+  .marquee-wrap:hover .marquee-track{ animation-play-state:paused; }
+  @keyframes marquee-scroll{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .marquee-track{ animation:none; }
+    .dot-live{ animation:none; }
+  }
+
+  /* corner brackets for project frames */
+  .bracket-frame{ position:relative; }
+  .bracket-frame::before,
+  .bracket-frame::after{
+    content:"";
+    position:absolute;
+    width:18px;height:18px;
+    border-color:var(--signal-dim);
+    opacity:.9;
+  }
+  .bracket-frame::before{ top:10px; left:10px; border-top:2px solid; border-left:2px solid; }
+  .bracket-frame::after{ bottom:10px; right:10px; border-bottom:2px solid; border-right:2px solid; }
+
+  .scanline{
+    background:repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.02) 0px,
+      rgba(255,255,255,0.02) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  }
+
+  ::selection{ background:var(--signal); color:var(--ink-950); }
+
+  .link-underline,
+  .link-underline:visited {
+    color: var(--signal);
+  }
+
+  .link-underline:hover {
+    color: var(--paper);
+  }
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--paper);
+    outline-offset:2px;
+  }
+
+  /* ===== Project media link — hover motif ===== */
+  .media-link{
+    position:relative;
+    display:block;
+    width:100%;
+    height:100%;
+    border-radius:1rem;
+    overflow:hidden;
+    isolation:isolate;
+  }
+  .media-link img{
+    transition:transform .5s cubic-bezier(.16,.8,.24,1), filter .4s ease;
+    filter:grayscale(15%) brightness(0.94);
+  }
+  .media-link:hover img{
+    transform:scale(1.045);
+    filter:grayscale(0%) brightness(1.02);
+  }
+  .media-link .media-scan{
+    position:absolute;
+    inset:0;
+    background:repeating-linear-gradient(
+      to bottom,
+      rgba(79,232,196,0.06) 0px,
+      rgba(79,232,196,0.06) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    opacity:0;
+    transition:opacity .3s ease;
+    pointer-events:none;
+    z-index:2;
+  }
+  .media-link:hover .media-scan{ opacity:1; }
+  .media-link .media-veil{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg, rgba(10,14,19,0) 45%, rgba(10,14,19,0.92) 100%);
+    opacity:0;
+    transition:opacity .35s ease;
+    pointer-events:none;
+    z-index:3;
+  }
+  .media-link:hover .media-veil{ opacity:1; }
+  .media-link .media-cta{
+    position:absolute;
+    left:16px; right:16px; bottom:14px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-family:'JetBrains Mono',ui-monospace,monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--signal);
+    opacity:0;
+    transform:translateY(8px);
+    transition:opacity .35s ease, transform .35s ease;
+    z-index:4;
+  }
+  .media-link:hover .media-cta{ opacity:1; transform:translateY(0); }
+  .media-link .media-cta i{
+    transition:transform .3s ease;
+  }
+  .media-link:hover .media-cta i{ transform:translate(2px,-2px); }
+  .media-link::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border:1px solid var(--signal);
+    border-radius:1rem;
+    opacity:0;
+    transition:opacity .3s ease;
+    z-index:5;
+    pointer-events:none;
+  }
+  .media-link:hover::after{ opacity:.55; }
+</style>
+</head>
+<body>
+
+<nav id="header" class="sticky top-0 z-50 w-full border-b border-[var(--line)] bg-[var(--ink-950)]/85 backdrop-blur-md">
+  <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center gap-3">
+      <div class="flex h-8 w-8 items-center justify-center rounded-md border border-[var(--line)] font-mono text-xs font-medium text-[var(--signal)]">AJ</div>
+      <span class="font-display text-base font-semibold tracking-tight">Anthony James Esteban</span>
+    </div>
+    <div class="hidden items-center gap-8 md:flex font-mono text-xs uppercase tracking-widest text-[var(--fog)]">
+      <a href="#about" class="hover:text-[var(--signal)] transition-colors">01 · About</a>
+      <a href="#expertise" class="hover:text-[var(--signal)] transition-colors">02 · Stack</a>
+      <a href="#projects" class="hover:text-[var(--signal)] transition-colors">03 · Work</a>
+    </div>
+    <div>
+      <button class="btn-primary rounded-md px-4 py-2 text-sm font-semibold transition">
+        <a href="./Assets/ANTHONY JAMES ESTEBAN_CV.pdf" target="_blank" download>
+            Download CV
+        </a>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <section id="about" class="relative border-b border-[var(--line)] px-4 py-24 sm:px-6 lg:px-8 overflow-hidden">
+    <div class="grid-tex pointer-events-none absolute inset-0"></div>
+    <div class="relative mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-16 md:grid-cols-2">
+
+      <div class="space-y-7">
+        <div class="flex flex-wrap gap-2 font-mono text-[11px] uppercase tracking-wider text-[var(--fog)]">
+          <span class="tag-pill inline-flex items-center rounded-full px-3 py-1">B.S. Information Technology — Magna Cum Laude</span>
+          <span class="tag-pill inline-flex items-center rounded-full px-3 py-1">DOST-SEI Scholar</span>
+        </div>
+
+        <h1 class="font-display text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
+          Anthony James <span class="text-[var(--signal)]">U. Esteban</span>
+        </h1>
+
+        <p class="font-mono text-lg text-[var(--fog)]">
+          Full-Stack &amp; AI Integration Engineer
+        </p>
+
+        <p class="max-w-lg text-base leading-relaxed text-[var(--fog)]">
+          I build web, mobile, and backend systems —
+          from geofenced mobile apps to forecasting engines and LLM-driven document
+          automation. Architecture first, polish always.
+        </p>
+
+        <div class="flex flex-wrap gap-4 pt-2">
+          <a href="#projects" class="btn-primary rounded-md px-6 py-3 text-sm font-semibold transition">
+            View Work
+          </a>
+          <button class="btn-ghost rounded-md px-6 py-3 text-sm font-semibold transition">
+            <a href="./Assets/ANTHONY JAMES ESTEBAN_CV.pdf" target="_blank" download>
+                Download CV
+            </a>
+          </button>
+        </div>
+      </div>
+
+      <!-- Signature element: system status readout, replaces generic photo placeholder -->
+      <div class="relative">
+        <div class="scanline card rounded-2xl p-6 font-mono text-xs shadow-[0_0_60px_-15px_rgba(79,232,196,0.15)]">
+          <div class="flex items-center justify-between border-b border-[var(--line)] pb-4">
+            <span class="text-[var(--fog-dim)] tracking-widest uppercase">session // ajesteban</span>
+            <div class="flex items-center gap-2">
+              <span class="dot-live"></span>
+              <span class="text-[var(--signal)] tracking-widest">AVAILABLE</span>
+            </div>
+          </div>
+
+          <div class="mt-5 space-y-3 text-[var(--fog)]">
+            <div class="flex justify-between"><span class="text-[var(--fog-dim)]">role</span><span class="text-[var(--paper)]">full-stack / ai integration</span></div>
+            <div class="flex justify-between"><span class="text-[var(--fog-dim)]">location</span><span class="text-[var(--paper)]">Sta. Maria, Bulacan, PH</span></div>
+            <div class="flex justify-between"><span class="text-[var(--fog-dim)]">coords</span><span class="text-[var(--paper)]">14.8167°N, 120.9667°E</span></div>
+            <div class="flex justify-between"><span class="text-[var(--fog-dim)]">uptime</span><span class="text-[var(--paper)]">About to Graduate!</span></div>
+          </div>
+
+          <div class="mt-5 border-t border-[var(--line)] pt-4">
+            <div class="text-[var(--fog-dim)] mb-2">stack.active</div>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="tag-pill rounded px-2 py-1 text-[10px] text-[var(--fog)]">react</span>
+              <span class="tag-pill rounded px-2 py-1 text-[10px] text-[var(--fog)]">node</span>
+              <span class="tag-pill rounded px-2 py-1 text-[10px] text-[var(--fog)]">python</span>
+              <span class="tag-pill rounded px-2 py-1 text-[10px] text-[var(--fog)]">laravel</span>
+              <span class="tag-pill rounded px-2 py-1 text-[10px] text-[var(--fog)]">mongodb</span>
+              <span class="tag-pill rounded px-2 py-1 text-[10px] text-[var(--signal)]">llm apis</span>
+            </div>
+          </div>
+
+          <div class="mt-5 border-t border-[var(--line)] pt-4 text-[var(--fog-dim)]">
+            <span class="text-[var(--signal)]">&gt;</span> compiling portfolio<span class="animate-pulse">_</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ MARQUEE (fixed) ============ -->
+  <div class="marquee-wrap border-b border-[var(--line)] bg-[var(--ink-900)] py-5">
+    <div class="marquee-track">
+      <!-- Set A -->
+      <div class="flex items-center">
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--signal)]">React</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--signal)]">React Native</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--signal)]">Node.js</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--signal)]">TypeScript</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--signal)]">Python</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--signal)]">Laravel</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--fog-dim)]">Svelte</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--fog-dim)]">MongoDB</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--fog-dim)]">MySQL</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--fog-dim)]">Prophet</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--signal)]">Gemini API</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--signal)]">ChatGPT API</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--fog-dim)]">Mapbox</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--fog-dim)]">Docker / Vercel</span><span class="text-[var(--line)]">•</span>
+      </div>
+      <!-- Set B (duplicate for seamless loop) -->
+      <div class="flex items-center" aria-hidden="true">
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--fog-dim)]">React</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--fog-dim)]">React Native</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--signal)]">Node.js</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--signal)]">TypeScript</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--signal)]">Python</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--fog-dim)]">Laravel</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--fog-dim)]">Svelte</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--fog-dim)]">MongoDB</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--fog-dim)]">MySQL</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--signal)]">Prophet</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--signal)]">Gemini API</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--signal)]">ChatGPT API</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--fog-dim)]">Mapbox</span><span class="text-[var(--line)]">•</span>
+        <span class="mx-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--fog-dim)]">Docker / Vercel</span><span class="text-[var(--line)]">•</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ EXPERTISE ============ -->
+  <section id="expertise" class="px-4 py-24 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+      <div class="mb-16 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-xs uppercase tracking-widest text-[var(--signal)] mb-2">02 · Stack</p>
+          <h2 class="font-display text-3xl font-semibold tracking-tight sm:text-4xl">Technical Expertise</h2>
+          <p class="mt-2 text-[var(--fog)]">The end-to-end toolset behind every build below.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 gap-12">
+
+        <div class="space-y-6">
+          <h3 class="flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-widest text-[var(--fog-dim)]">
+            <span class="h-px w-8 bg-[var(--line)]"></span>Frontend &amp; Mobile
+          </h3>
+          <div class="flex flex-wrap gap-3">
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-brands fa-react text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">React / Native</span></div>
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-solid fa-bolt text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">Svelte</span></div>
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-solid fa-cube text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">Expo</span></div>
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-solid fa-mobile text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">FlutterFlow</span></div>
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-brands fa-html5 text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">HTML / CSS</span></div>
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-brands fa-js text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">JS / TS</span></div>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <h3 class="flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-widest text-[var(--fog-dim)]">
+            <span class="h-px w-8 bg-[var(--line)]"></span>Backend &amp; Security
+          </h3>
+          <div class="flex flex-wrap gap-3">
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-brands fa-node-js text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">Node / Express</span></div>
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-brands fa-laravel text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">Laravel</span></div>
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-brands fa-php text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">PHP</span></div>
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-brands fa-java text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">Java</span></div>
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-solid fa-code text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">C</span></div>
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-solid fa-lock text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">JWT / OAuth</span></div>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <h3 class="flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-widest text-[var(--fog-dim)]">
+            <span class="h-px w-8 bg-[var(--line)]"></span>Databases &amp; Infrastructure
+          </h3>
+          <div class="flex flex-wrap gap-3">
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-solid fa-leaf text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">MongoDB</span></div>
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-solid fa-database text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">MySQL</span></div>
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-brands fa-git-alt text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">Git / GitHub</span></div>
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-solid fa-cloud-arrow-up text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">Vercel / Render</span></div>
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-solid fa-server text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">Hostinger</span></div>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <h3 class="flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-widest text-[var(--fog-dim)]">
+            <span class="h-px w-8 bg-[var(--line)]"></span>AI &amp; Integrated Services
+          </h3>
+          <div class="flex flex-wrap gap-3">
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-brands fa-python text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">Python (Prophet)</span></div>
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-solid fa-robot text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">Gemini / ChatGPT API</span></div>
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-solid fa-location-dot text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">Mapbox</span></div>
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-solid fa-calendar-days text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">Google Calendar API</span></div>
+            <div class="chip flex items-center gap-3 rounded-xl px-4 py-3"><i class="fa-solid fa-image text-lg text-[var(--signal)]"></i><span class="text-sm font-medium">Cloudinary / Turf.js</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section id="projects" class="border-t border-[var(--line)] bg-[var(--ink-900)] px-4 py-24 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+      <div class="mb-16">
+        <p class="font-mono text-xs uppercase tracking-widest text-[var(--signal)] mb-2">03 · Work</p>
+        <h2 class="font-display text-3xl font-semibold tracking-tight sm:text-4xl">Featured Projects</h2>
+        <p class="mt-2 text-[var(--fog)]">A structural breakdown of engineering impact and architecture.</p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-16">
+
+        <!-- Project: Wakepoint -->
+        <div class="group grid grid-cols-1 items-start gap-8 md:grid-cols-12">
+          <div class="space-y-6 md:col-span-7">
+            <div class="space-y-2">
+              <p class="font-mono text-xs uppercase tracking-widest text-[var(--fog-dim)]">Mobile Dev / Geofencing</p>
+              <h3 class="font-display text-3xl font-semibold">Wakepoint</h3>
+            </div>
+            <p class="leading-relaxed text-[var(--fog)]">
+              A location-based app that fires real-time GPS triggers through background
+              geofencing — automated wake-ups and alerts the moment a user enters a set zone.
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <div class="tag-pill flex items-center gap-2 rounded-full px-3 py-1.5">
+                <div class="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--ink-800)]"><i class="fa-brands fa-react text-[10px] text-[var(--signal)]"></i></div>
+                <span class="font-mono text-[11px] font-medium uppercase tracking-tight">React Native</span>
+              </div>
+              <div class="tag-pill flex items-center gap-2 rounded-full px-3 py-1.5">
+                <div class="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--ink-800)]"><i class="fa-solid fa-location-dot text-[10px] text-[var(--signal)]"></i></div>
+                <span class="font-mono text-[11px] font-medium uppercase tracking-tight">Mapbox</span>
+              </div>
+              <div class="tag-pill flex items-center gap-2 rounded-full px-3 py-1.5">
+                <div class="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--ink-800)]"><i class="fa-solid fa-cube text-[10px] text-[var(--signal)]"></i></div>
+                <span class="font-mono text-[11px] font-medium uppercase tracking-tight">Expo</span>
+              </div>
+            </div>
+            <div class="flex gap-6 pt-2">
+              <a href="https://wakepoint-zlqg.onrender.com/" target="_blank" class="link-underline pb-1 text-sm font-semibold">Open Download Site<i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs"></i></a>
+              <a href="https://github.com/Chago16/wakepoint" target="_blank" class="link-underline pb-1 text-sm font-semibold">Github Repo<i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs"></i></a>
+            </div>
+          </div>
+          <div class="bracket-frame card grid h-[380px] place-items-center rounded-2xl md:col-span-5">
+            <div class="grid-tex absolute inset-0 rounded-2xl"></div>
+            <a href="https://wakepoint-zlqg.onrender.com/" target="_blank" class="media-link">
+              <img
+                src="Assets/Images/WakePoint-Banner.png"
+                alt="WakePoint mobile application"
+                class="relative h-full w-full rounded-2xl object-cover"
+              />
+              <span class="media-scan"></span>
+              <span class="media-veil"></span>
+              <span class="media-cta">
+                <span>Open Download Site</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Project: Shoelotskey -->
+        <div class="group grid grid-cols-1 items-start gap-8 md:grid-cols-12">
+          <div class="bracket-frame card relative order-2 grid h-[380px] place-items-center rounded-2xl md:order-1 md:col-span-5">
+            <div class="grid-tex absolute inset-0 rounded-2xl"></div>
+            <a href="./Assets/Shoelotskey Web Admin Suite - Case Study.pdf" target="_blank" class="media-link">
+              <img
+                src="Assets/Images/SWAS View Page.png"
+                alt="WakePoint mobile application"
+                class="relative h-full w-full rounded-2xl object-cover"
+              />
+              <span class="media-scan"></span>
+              <span class="media-veil"></span>
+              <span class="media-cta">
+                <span>View Case Study</span>
+                <i class="fa-solid fa-file-arrow-down"></i>
+              </span>
+            </a>
+          </div>
+          <div class="order-1 space-y-6 md:order-2 md:col-span-7">
+            <div class="space-y-2">
+              <p class="font-mono text-xs uppercase tracking-widest text-[var(--fog-dim)]">Full-Stack / Capstone</p>
+              <h3 class="font-display text-3xl font-semibold">Shoelotskey Web &amp; Admin Suite</h3>
+            </div>
+            <p class="leading-relaxed text-[var(--fog)]">
+              A multi-branch management platform with predictive analytics for inventory
+              aging and sales forecasting — built to keep every branch reading from the same numbers.
+            </p>
+            <ul class="grid grid-cols-1 gap-x-8 gap-y-2 text-sm text-[var(--fog)] sm:grid-cols-2">
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-[var(--signal)]"></i>Python Prophet</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-[var(--signal)]"></i>RBAC implementation</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-[var(--signal)]"></i>Real-time tracking</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-[var(--signal)]"></i>Multi-branch sync</li>
+            </ul>
+            <div class="flex flex-wrap gap-3">
+              <div class="tag-pill flex items-center gap-2 rounded-full px-3 py-1.5">
+                <div class="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--ink-800)]"><i class="fa-brands fa-react text-[10px] text-[var(--signal)]"></i></div>
+                <span class="font-mono text-[11px] font-medium uppercase tracking-tight">React</span>
+              </div>
+              <div class="tag-pill flex items-center gap-2 rounded-full px-3 py-1.5">
+                <div class="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--ink-800)]"><i class="fa-brands fa-python text-[10px] text-[var(--signal)]"></i></div>
+                <span class="font-mono text-[11px] font-medium uppercase tracking-tight">Prophet</span>
+              </div>
+              <div class="tag-pill flex items-center gap-2 rounded-full px-3 py-1.5">
+                <div class="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--ink-800)]"><i class="fa-solid fa-database text-[10px] text-[var(--signal)]"></i></div>
+                <span class="font-mono text-[11px] font-medium uppercase tracking-tight">MongoDB</span>
+              </div>
+            </div>
+            <div class="flex gap-6 pt-2">
+              <a href="./Assets/Shoelotskey Web Admin Suite - Case Study.pdf" target="_blank" class="link-underline pb-1 text-sm font-semibold">View Case Study<i class="fa-solid fa-file-arrow-down ml-1 text-xs"></i></a>
+              <a href="https://drive.google.com/drive/folders/1wkqndrKFKRvAkriMChL09DP3eQVdubwE?usp=sharing" target="_blank" class="link-underline pb-1 text-sm font-semibold">Project Public Showcase<i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project: NPVN internship -->
+        <div class="group grid grid-cols-1 items-start gap-8 md:grid-cols-12">
+          <div class="space-y-6 md:col-span-7">
+            <div class="space-y-2">
+              <p class="font-mono text-xs uppercase tracking-widest text-[var(--fog-dim)]">Backend Systems / Internship</p>
+              <h3 class="font-display text-3xl font-semibold">Learn By Alps - Mobile LMS</h3>
+            </div>
+            <p class="leading-relaxed text-[var(--fog)]">
+              Integrated LMS mobile systems with enterprise calendar solutions, focused on
+              API stabilization and keeping data in sync under real load.
+            </p>
+            <ul class="grid grid-cols-1 gap-x-8 gap-y-2 text-sm text-[var(--fog)] sm:grid-cols-2">
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-[var(--signal)]"></i>Google Calendar API + OAuth</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-[var(--signal)]"></i>Cache optimization</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-[var(--signal)]"></i>LMS system sync</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-[var(--signal)]"></i>Backend API stabilization</li>
+            </ul>
+            <div class="flex flex-wrap gap-3">
+              <div class="tag-pill flex items-center gap-2 rounded-full px-3 py-1.5">
+                <div class="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--ink-800)]"><i class="fa-brands fa-node-js text-[10px] text-[var(--signal)]"></i></div>
+                <span class="font-mono text-[11px] font-medium uppercase tracking-tight">Node.js</span>
+              </div>
+              <div class="tag-pill flex items-center gap-2 rounded-full px-3 py-1.5">
+                <div class="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--ink-800)]"><i class="fa-solid fa-lock text-[10px] text-[var(--signal)]"></i></div>
+                <span class="font-mono text-[11px] font-medium uppercase tracking-tight">OAuth 2.0</span>
+              </div>
+              <div class="tag-pill flex items-center gap-2 rounded-full px-3 py-1.5">
+                <div class="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--ink-800)]"><i class="fa-solid fa-calendar-days text-[10px] text-[var(--signal)]"></i></div>
+                <span class="font-mono text-[11px] font-medium uppercase tracking-tight">Google API</span>
+              </div>
+            </div>
+            <div class="flex gap-6 pt-2">
+              <a href="https://learnbyalps-mobile.flutterflow.app/mainProfilePage" target="_blank" class="link-underline pb-1 text-sm font-semibold">Open Mobile App's PWA<i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs"></i></a>
+            </div>
+          </div>
+          <div class="bracket-frame card grid h-[380px] place-items-center rounded-2xl md:col-span-5">
+            <div class="grid-tex absolute inset-0 rounded-2xl"></div>
+            <a href="https://learnbyalps-mobile.flutterflow.app/mainProfilePage" target="_blank" class="media-link">
+              <img
+                src="Assets/Images/Alps Backend.png"
+                alt="Learn By Alps Backend"
+                class="relative h-full w-full rounded-2xl object-cover"
+              />
+              <span class="media-scan"></span>
+              <span class="media-veil"></span>
+              <span class="media-cta">
+                <span>Open Mobile App's PWA</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Project: DIKTA AI -->
+        <div class="group grid grid-cols-1 items-start gap-8 md:grid-cols-12">
+          <div class="bracket-frame card relative order-2 grid h-[380px] place-items-center rounded-2xl md:order-1 md:col-span-5">
+            <div class="grid-tex absolute inset-0 rounded-2xl"></div>
+            <a href="https://document-generator-phi.vercel.app/" target="_blank" class="media-link">
+              <img
+              src="Assets/Images/Dikta Front Page.png"
+              alt="DIKTA AI document generation platform"
+              class="relative h-full w-full rounded-2xl object-cover">
+              <span class="media-scan"></span>
+              <span class="media-veil"></span>
+              <span class="media-cta">
+                <span>Launch Platform</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </span>
+            </a>
+          </div>
+          <div class="order-1 space-y-6 md:order-2 md:col-span-7">
+            <div class="space-y-2">
+              <p class="font-mono text-xs uppercase tracking-widest text-[var(--fog-dim)]">AI Integration / Svelte</p>
+              <h3 class="font-display text-3xl font-semibold">DIKTA AI</h3>
+            </div>
+            <p class="leading-relaxed text-[var(--fog)]">
+              A document-generation engine that uses large language models to automate
+              administrative paperwork, with dynamic templating so output stays on-format every time.
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <div class="tag-pill flex items-center gap-2 rounded-full px-3 py-1.5">
+                <div class="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--ink-800)]"><i class="fa-solid fa-bolt text-[10px] text-[var(--signal)]"></i></div>
+                <span class="font-mono text-[11px] font-medium uppercase tracking-tight">Svelte</span>
+              </div>
+              <div class="tag-pill flex items-center gap-2 rounded-full px-3 py-1.5">
+                <div class="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--ink-800)]"><i class="fa-solid fa-robot text-[10px] text-[var(--signal)]"></i></div>
+                <span class="font-mono text-[11px] font-medium uppercase tracking-tight">ChatGPT API</span>
+              </div>
+            </div>
+            <div class="flex gap-6 pt-2">
+              <a href="https://document-generator-phi.vercel.app/" target="_blank" class="link-underline pb-1 text-sm font-semibold">Launch Platform<i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs"></i></a>
+              <a href="https://github.com/Chago16/Dikta-Document-Generator" target="_blank" class="link-underline pb-1 text-sm font-semibold">Github Repo<i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs"></i></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer id="footer" class="border-t border-[var(--line)] px-4 pb-16 pt-32 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-7xl">
+    <div class="border-b border-[var(--line)] pb-24">
+      <div class="grid grid-cols-1 items-start gap-16 md:items-end lg:grid-cols-2">
+        <div class="space-y-8">
+          <div class="space-y-4">
+            <span class="tag-pill inline-flex items-center rounded-full px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-[var(--signal)]">
+              <span class="dot-live mr-2"></span>Open to roles
+            </span>
+            <h2 class="font-display text-5xl font-semibold leading-[1.1] tracking-tight md:text-7xl">
+              Let's build something<br class="hidden md:block"> impactful together.
+            </h2>
+          </div>
+          <div class="flex flex-col gap-4">
+            <p class="font-mono text-xs uppercase tracking-widest text-[var(--fog-dim)]">Inquiries &amp; Collaboration</p>
+            <div class="group relative inline-flex items-center gap-6">
+              <span id="email-text" onclick="copyEmail()" class="cursor-pointer font-display text-2xl font-semibold tracking-tight transition-colors hover:text-[var(--signal)] md:text-4xl">
+                james.esteban08@gmail.com
+              </span>
+              <button onclick="copyEmail()" class="flex h-12 w-12 items-center justify-center rounded-full border border-[var(--line)] transition-colors hover:border-[var(--signal)]">
+                <i class="fa-regular fa-copy text-[var(--fog)]"></i>
+              </button>
+              <span id="copy-tooltip" class="absolute -top-12 left-0 hidden rounded bg-[var(--signal)] px-3 py-1.5 font-mono text-xs text-[var(--ink-950)]">Copied to clipboard</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col items-start gap-12 lg:items-end">
+          <div class="flex gap-4">
+            <a href="https://github.com/Chago16" target="_blank" class="flex h-16 w-16 items-center justify-center rounded-full border border-[var(--line)] transition-all hover:border-[var(--signal)]"><i class="fa-brands fa-github text-2xl"></i></a>
+            <a href="https://www.linkedin.com/in/james-esteban-24b56b288/" target="_blank" class="flex h-16 w-16 items-center justify-center rounded-full border border-[var(--line)] transition-all hover:border-[var(--signal)]"><i class="fa-brands fa-linkedin-in text-2xl"></i></a>
+          </div>
+          <div class="text-left font-mono lg:text-right">
+            <p class="text-xs italic text-[var(--fog-dim)]">based in</p>
+            <p class="text-base font-medium text-[var(--paper)]">Sta. Maria, Bulacan, PH</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center justify-between gap-8 pt-16 md:flex-row">
+      <p class="font-mono text-xs font-semibold uppercase tracking-widest">Anthony James Esteban</p>
+      <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--fog-dim)]">© 2026 Anthony James Esteban — All rights reserved</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function copyEmail() {
+    const email = "james.esteban08@gmail.com";
+    navigator.clipboard.writeText(email).then(() => {
+      const tooltip = document.getElementById('copy-tooltip');
+      tooltip.classList.remove('hidden');
+      setTimeout(() => tooltip.classList.add('hidden'), 2000);
+    });
+  }
+</script>
+</body>
+</html>
